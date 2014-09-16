@@ -71,7 +71,6 @@ class ExtAuthComponent extends Component {
 	public function loginCallback($providerName, $requestToken = null, $callbackURL = null) {
 		$this->providerName = $providerName;
 		$this->_setupPlugins();
-
 		if (!$requestToken) {
 			$requestToken = $this->Session->read($this->settings['sessionVariableRequestToken']);
 		}
@@ -119,7 +118,7 @@ class ExtAuthComponent extends Component {
 			$this->provider->profileMethod,
 			$this->provider->profileHeaders
 		);
-
+debug($response['success']);die("asas");
 		if ($response['success']) {
 			return array(
 				'success'   => true,

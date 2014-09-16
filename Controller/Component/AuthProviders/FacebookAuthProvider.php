@@ -14,6 +14,7 @@ class FacebookAuthProvider extends AbstractAuthProvider {
 		$this->AuthDialogParameters = array(
 			'client_id'         => $this->key,
 			'redirect_uri'      => '{CALLBACK_URL}',
+			'scope'        		=> 'email',
 			//'state'           => '{STATE}',
 		);
 
@@ -37,37 +38,29 @@ class FacebookAuthProvider extends AbstractAuthProvider {
 	public function normalizeProfile($raw_profile) {
 		$profile = json_decode($raw_profile, TRUE);
 
-		// straight copy items
-		$response = array_intersect_key(
-			$profile,
-			array_flip(array('locale', 'gender', 'username'))
-		);
-
 		// mapped items
 		$map = array(
+			'username'			=> 'email',
 			'first_name'        => 'given_name',
 			'last_name'         => 'family_name',
 			'link'              => 'oid',
+			'oid'				=> 'link'
 		);
-		// if no username, map name to username
-		if (!isset($response['username'])) $map['name'] = 'username';
+		unset($profile['id']);
 
 		// do mapping
 		foreach($map as $source => $dest) {
-			if (isset($profile[$source])) {
-				$response[$dest] = $profile[$source];
+			if (isset($profile[$dest]) && !isset($profile[$source]) ) {
+				$profile[$source] = $profile[$dest];
 			}
 		}
-
 		// special cases
-		$response['picture'] = str_replace('www.facebook.com', 'graph.facebook.com', $profile['link']) . '/picture?type=large';
-
-		$response['raw'] = $raw_profile;
-		$response['provider'] = 'Facebook';
-
+		$profile['picture'] = str_replace('www.facebook.com', 'graph.facebook.com', $profile['link']) . '/picture?type=large';
+		$profile['raw'] = $raw_profile;
+		$profile['provider'] = 'Facebook';
 		return array(
 			'success'   => true,
-			'data'      => $response
+			'data'      => $profile
 		);
 	}
 }

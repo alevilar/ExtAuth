@@ -14,8 +14,9 @@ class GoogleAuthProvider extends AbstractAuthProvider {
 		$this->AuthDialogParameters = array(
 			'client_id'     => $this->key,
 			'response_type' => 'code',
-			'scope'         => 'openid profile',
+			'scope'         => 'email',
 			'redirect_uri'  => '{CALLBACK_URL}',
+			'display'		=> 'popup'
 			//'state'         => '{STATE}',
 		);
 
@@ -40,28 +41,27 @@ class GoogleAuthProvider extends AbstractAuthProvider {
 	public function normalizeProfile($raw_profile) {
 		$profile = json_decode($raw_profile, TRUE);
 
-		// straight copy items
-		$response = array_intersect_key(
-			$profile,
-			array_flip(array('email', 'given_name', 'family_name', 'picture', 'gender', 'locale'))
-		);
 
 		// mapped items
 		$map = array(
-			'link'      => 'oid',
+			'oid'      => 'link',
 			'birthday'  => 'dob',
-			'name'      => 'username'
+			'username'      => 'email'
 		);
+
+		unset($profile['id']);
+		// do mapping
 		foreach($map as $source => $dest) {
-			if (isset($profile[$source])) $response[$dest] = $profile[$source];
+			if (isset($profile[$dest]) && !isset($profile[$source]) ) {
+				$profile[$source] = $profile[$dest];
+			}
 		}
 
-		$response['raw'] = $raw_profile;
-		$response['provider'] = 'Google';
-
+		$profile['raw'] = $raw_profile;
+		$profile['provider'] = 'Google';
 		return array(
 			'success'   => true,
-			'data'      => $response
+			'data'      => $profile
 		);
 	}
 }
