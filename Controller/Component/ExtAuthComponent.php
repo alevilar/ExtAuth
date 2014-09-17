@@ -64,7 +64,6 @@ class ExtAuthComponent extends Component {
 		if (isset($result['requestToken'])) {
 			$this->Session->write($this->settings['sessionVariableRequestToken'], $result['requestToken']);
 		}
-
 		return $result;
 	}
 
@@ -118,7 +117,6 @@ class ExtAuthComponent extends Component {
 			$this->provider->profileMethod,
 			$this->provider->profileHeaders
 		);
-debug($response['success']);die("asas");
 		if ($response['success']) {
 			return array(
 				'success'   => true,
