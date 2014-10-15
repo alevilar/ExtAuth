@@ -1,5 +1,5 @@
 {
-    "name": "sc0ttyd/ext-auth",
+    "name": "ristorantino/ext-auth",
     "type": "cakephp-plugin",
     "description": "CakePHP federated login / external authentication (via OAuth1 and OAuth2) Plugin",
     "version": "0.1.0",
