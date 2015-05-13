@@ -15,14 +15,14 @@ abstract class AbstractAuthMechanism {
 	}
 
 	protected function _doGet($url) {
-		$socket = new HttpSocket();
+		$socket = new HttpSocket(array('ssl_verify_host' => false));
 		$result = $socket->get($url);
 
 		return $result;
 	}
 
 	protected function _doPost($url, $data) {
-		$socket = new HttpSocket();
+		$socket = new HttpSocket(array('ssl_verify_host' => false));
 		$result = $socket->post($url, $data);
 
 		return $result;
