@@ -37,16 +37,15 @@ class FacebookAuthProvider extends AbstractAuthProvider {
 
 	public function normalizeProfile($raw_profile) {
 		$profile = json_decode($raw_profile, TRUE);
-
 		// mapped items
 		$map = array(
-			'username'			=> 'email',
-			'first_name'        => 'given_name',
-			'last_name'         => 'family_name',
-			'link'              => 'oid',
-			'oid'				=> 'link'
+			// ExtAuth => FB
+			'email'			=> 'email',
+			'given_name'        => 'first_name',
+			'family_name'         => 'last_name',
+			//	'link'              => 'oid',
+			'oid'				=> 'id'
 		);
-		unset($profile['id']);
 
 		// do mapping
 		foreach($map as $source => $dest) {
@@ -58,6 +57,7 @@ class FacebookAuthProvider extends AbstractAuthProvider {
 		$profile['picture'] = str_replace('www.facebook.com', 'graph.facebook.com', $profile['link']) . '/picture?type=large';
 		$profile['raw'] = $raw_profile;
 		$profile['provider'] = 'Facebook';
+		unset($profile['id']);
 		return array(
 			'success'   => true,
 			'data'      => $profile

@@ -44,12 +44,12 @@ class GoogleAuthProvider extends AbstractAuthProvider {
 
 		// mapped items
 		$map = array(
-			'oid'      => 'link',
+			// ExtAuth => FB
+			'oid'      => 'id',
 			'birthday'  => 'dob',
-			'username'      => 'email'
+			'email'			=> 'email',
 		);
 
-		unset($profile['id']);
 		// do mapping
 		foreach($map as $source => $dest) {
 			if (isset($profile[$dest]) && !isset($profile[$source]) ) {
@@ -59,6 +59,7 @@ class GoogleAuthProvider extends AbstractAuthProvider {
 
 		$profile['raw'] = $raw_profile;
 		$profile['provider'] = 'Google';
+		unset($profile['id']);
 		return array(
 			'success'   => true,
 			'data'      => $profile
