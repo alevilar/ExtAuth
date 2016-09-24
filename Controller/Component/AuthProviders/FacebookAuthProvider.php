@@ -1,4 +1,4 @@
-<?php
+	<?php
 
 require_once('AbstractAuthProvider.php');
 
@@ -56,7 +56,7 @@ class FacebookAuthProvider extends AbstractAuthProvider {
 		// special cases
 		$profile['picture'] = str_replace('www.facebook.com', 'graph.facebook.com', $profile['link']) . '/picture?type=large';
 		$profile['raw'] = $raw_profile;
-		$profile['provider'] = 'Facebook';
+		$profile['provider'] = OAUTH_PROVIDER_FACEBOOK;
 		unset($profile['id']);
 		return array(
 			'success'   => true,

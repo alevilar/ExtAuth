@@ -58,7 +58,7 @@ class GoogleAuthProvider extends AbstractAuthProvider {
 		}
 
 		$profile['raw'] = $raw_profile;
-		$profile['provider'] = 'Google';
+		$profile['provider'] = OAUTH_PROVIDER_GOOGLE;
 		unset($profile['id']);
 		return array(
 			'success'   => true,
