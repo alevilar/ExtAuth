@@ -53,8 +53,9 @@ class FacebookAuthProvider extends AbstractAuthProvider {
 				$profile[$source] = $profile[$dest];
 			}
 		}
+		debug($profile);
 		// special cases
-		if (!empty($profile['link'])) {
+		if ( !empty($profile['link']) ) {
 			$profile['picture'] = str_replace('www.facebook.com', 'graph.facebook.com', $profile['link']) . '/picture?type=large';
 		}
 		$profile['raw'] = $raw_profile;
